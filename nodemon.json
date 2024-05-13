@@ -1,0 +1,9 @@
+{
+    "watch": ["src"],
+    "ext": ".ts,.js",
+    "ignore": [],
+    "exec": "npx ts-node ./src/external/api/index.ts",
+    "env": {
+        "MONGODB_CONNECTION_STRING": "mongodb+srv://jonathansroliveira:EcIMCTCx1J0RVbYp@db-gerenciamento.qb1rpst.mongodb.net/db-pedidos?retryWrites=true&w=majority&appName=db-gerenciamento"
+    }
+}

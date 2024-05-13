@@ -1,0 +1,44 @@
+version: '3.1'
+
+services:
+
+  api-pedidos:
+    image: node:alpine
+    container_name: api-pedidos
+    working_dir: /home/node/app
+    volumes:
+      - ./build:/home/node/app
+      - ./node_modules:/home/node/app/node_modules
+    expose:
+      - "3000"
+    ports:
+      - 3000:3000
+    command: "node ./external/api/index.js"
+    networks:
+      - mongo-network
+    restart: always
+    depends_on:
+      - mongo
+    environment:
+      MONGODB_USERNAME: apiuser
+      MONGODB_PASSWORD: OnMchiATNR3yW0Y9M8LnHtc07tUXbawn
+      MONGODB_PORT: 27017
+      MONGODB_DATABASE: api_pedidos
+
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: mongoroot
+    ports:
+      - "27017:27017"
+    networks:
+      - mongo-network
+    volumes:
+      - ./db/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - ./mongo-volume:/data/db
+
+networks: 
+  mongo-network:
+    driver: bridge
